@@ -19,6 +19,10 @@ const Config = {
     MIN: 1,
     MAX: 16
   },
+  Codes: {
+    ERROR: 1,
+    SUCCESS: 0
+  },
   // Min count of sentences in description
   MIN_DESCRIPTION_LENGTH: 1,
   // Max count of sentences in description

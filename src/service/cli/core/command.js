@@ -21,7 +21,7 @@ class Command {
   }
 
   execute() {
-    console.error(`Command '${this.name}' is not implemented`);
+    console.error(`Command '${this.name}' is not implemented or executor is not defined`);
   }
 }
 

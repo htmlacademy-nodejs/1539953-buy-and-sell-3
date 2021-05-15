@@ -1,11 +1,11 @@
 'use strict';
 
 const {Commands} = require(`../commands`);
+const {Config} = require(`../assets/config`);
 const {CommandsRegister} = require(`./commands-register`);
 const {parseRuntimeParameters} = require(`../assets/utils`);
 
 const DEFAULT_COMMAND = `--help`;
-const ERROR_CODE = 1;
 
 class App {
   static start() {
@@ -22,7 +22,7 @@ class App {
       const defaultCommand = App.commandsRegister.getCommandByName(DEFAULT_COMMAND);
       defaultCommand.execute(App);
 
-      process.exit(ERROR_CODE);
+      process.exit(Config.Codes.ERROR);
     }
 
     // Get target command and execute it with specified params
