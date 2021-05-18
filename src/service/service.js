@@ -1,3 +1,4 @@
 'use strict';
 
-console.log(`Hello, world!`);
+const {Cli} = require(`./cli`);
+Cli.start();
