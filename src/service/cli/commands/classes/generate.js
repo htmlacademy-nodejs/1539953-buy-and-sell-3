@@ -2,6 +2,7 @@
 
 const {Command} = require(`../../core/command`);
 const {Config} = require(`../../assets/config`);
+const chalk = require(`chalk`);
 
 // Main cli app command that generates mocks data
 class GenerateCommand extends Command {
@@ -24,7 +25,7 @@ class GenerateCommand extends Command {
 
     // If user specified more than 1000 offers break execution with error code
     if (offersCount > 1000) {
-      console.error(`Не больше 1000 объявлений`);
+      console.error(chalk.red(`Не больше 1000 объявлений`));
       process.exit(Config.Codes.ERROR);
     }
 
