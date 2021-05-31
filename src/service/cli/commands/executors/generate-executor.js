@@ -51,15 +51,14 @@ const writeContentToFile = async (body) => {
   try {
     await fs.writeFile(Config.FILE_NAME, body);
     console.info(chalk.green(`Operation success. File created.`));
-    process.exit(Config.Codes.SUCCESS);
   } catch (error) {
     console.error(chalk.red(`Can't write data to file...`));
-    process.exit(Config.Codes.ERROR);
+    throw new Error(`Additional info: \n${error}`);
   }
 };
 
 // Returns generated offers data
-const generateExecutor = (count) => {
+const generateExecutor = async (count) => {
   // Creates specified count of empty objects and fills it with data
   const data = Array(count).fill({}).map(() => {
     return {
@@ -74,7 +73,9 @@ const generateExecutor = (count) => {
 
   // Create JsonResult and write it to result file
   const jsonData = JSON.stringify(data);
-  writeContentToFile(jsonData);
+  await writeContentToFile(jsonData);
+
+  process.exit(Config.Codes.SUCCESS);
 };
 
 module.exports = {generateExecutor};
