@@ -1,5 +1,13 @@
 'use strict';
 
+const fs = require(`fs`).promises;
+const chalk = require(`chalk`);
+const path = require('path');
+
+const getAppRoot = () => {
+  return path.dirname(require.main.filename);
+};
+
 // Returns random integer from specified range
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
@@ -41,4 +49,28 @@ const parseRuntimeParameters = () => {
   };
 };
 
-module.exports = {getRandomInt, shuffle, parseRuntimeParameters};
+// Returns array of file contents strings
+const readFile = async (filePath) => {
+  try {
+    const rootPath = getAppRoot();
+    const pathFromRoot = rootPath + filePath;
+    const content = await fs.readFile(pathFromRoot, `utf-8`);
+    return content.split(`\n`);
+  } catch (error) {
+    console.error(chalk.red(error));
+    return [];
+  }
+};
+
+// Writes content to file
+const writeFile = async (filePath, content) => {
+  try {
+    await fs.writeFile(filePath, content);
+    console.info(chalk.green(`File '${filePath}' successfully created and data was written`));
+  } catch (error) {
+    console.error(chalk.red(`Can't write data to file...`));
+    throw new Error(`Additional info: \n${error}`);
+  }
+};
+
+module.exports = {getAppRoot, getRandomInt, shuffle, parseRuntimeParameters, readFile, writeFile};
