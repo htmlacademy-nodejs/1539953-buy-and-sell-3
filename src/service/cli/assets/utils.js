@@ -2,7 +2,7 @@
 
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
-const path = require('path');
+const path = require(`path`);
 
 const getAppRoot = () => {
   return path.dirname(require.main.filename);
