@@ -13,7 +13,7 @@ const Config = {
   },
   OffersTypes: {
     OFFER: `offer`,
-    SALE: `sale`,
+    SALE: `sale`
   },
   PicturesRange: {
     MIN: 1,
@@ -27,6 +27,12 @@ const Config = {
   MIN_DESCRIPTION_LENGTH: 1,
   // Max count of sentences in description
   MAX_DESCRIPTION_LENGTH: 5,
+  // Paths to contents from cli app root
+  Paths: {
+    TITLES: `/cli/data/titles.txt`,
+    SENTENCES: `/cli/data/sentences.txt`,
+    CATEGORIES: `/cli/data/categories.txt`
+  },
   // Output file name
   FILE_NAME: `mocks.json`
 };

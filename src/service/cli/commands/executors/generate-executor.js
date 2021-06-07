@@ -1,13 +1,10 @@
 'use strict';
 
 const {Config} = require(`../../assets/config`);
-const {getRandomInt, shuffle} = require(`../../assets/utils`);
-const {titles, descriptionSentences, categories} = require(`../../assets/contents.json`);
-const fs = require(`fs`).promises;
-const chalk = require(`chalk`);
+const {getRandomInt, shuffle, readFile, writeFile} = require(`../../assets/utils`);
 
 // Returns record title
-const getTitle = () => {
+const getTitle = (titles) => {
   return titles[getRandomInt(0, titles.length - 1)];
 };
 
@@ -20,7 +17,7 @@ const getPicture = () => {
 };
 
 // Returns random count of description sentences for offer
-const getDescription = () => {
+const getDescription = (descriptionSentences) => {
   const sentencesCount = getRandomInt(Config.MIN_DESCRIPTION_LENGTH, Config.MAX_DESCRIPTION_LENGTH);
   const shuffledSentences = shuffle(descriptionSentences);
 
@@ -40,40 +37,33 @@ const getSum = () => {
 };
 
 // Returns random offer categories array
-const getCategories = () => {
+const getCategories = (categories) => {
   const categoriesCount = getRandomInt(1, categories.length - 1);
 
   return categories.slice(0, categoriesCount);
 };
 
-// Writes mocks data to json file
-const writeContentToFile = async (body) => {
-  try {
-    await fs.writeFile(Config.FILE_NAME, body);
-    console.info(chalk.green(`Operation success. File created.`));
-  } catch (error) {
-    console.error(chalk.red(`Can't write data to file...`));
-    throw new Error(`Additional info: \n${error}`);
-  }
-};
-
 // Returns generated offers data
 const generateExecutor = async (count) => {
+  const titles = await readFile(Config.Paths.TITLES);
+  const descriptionSentences = await readFile(Config.Paths.SENTENCES);
+  const categories = await readFile(Config.Paths.CATEGORIES);
+
   // Creates specified count of empty objects and fills it with data
   const data = Array(count).fill({}).map(() => {
     return {
-      title: getTitle(),
+      title: getTitle(titles),
       picture: getPicture(),
-      description: getDescription(),
+      description: getDescription(descriptionSentences),
       type: getType(),
       sum: getSum(),
-      category: getCategories()
+      category: getCategories(categories)
     };
   });
 
   // Create JsonResult and write it to result file
   const jsonData = JSON.stringify(data);
-  await writeContentToFile(jsonData);
+  await writeFile(Config.FILE_NAME, jsonData);
 
   process.exit(Config.Codes.SUCCESS);
 };
