@@ -23,6 +23,18 @@ class Command {
   execute() {
     console.error(`Command '${this.name}' is not implemented or executor is not defined`);
   }
+
+  // Returns valid user parameter that might be integer or returns specified default
+  validateUserNumberParameter(specifiedValue, defaultValue) {
+    const numberSpecifiedValue = parseInt(specifiedValue, 10);
+
+    // Validates on Not A Number in case of parsing number from string
+    if (isNaN(numberSpecifiedValue)) {
+      return defaultValue;
+    }
+
+    return Math.abs(numberSpecifiedValue);
+  }
 }
 
 module.exports = {Command};

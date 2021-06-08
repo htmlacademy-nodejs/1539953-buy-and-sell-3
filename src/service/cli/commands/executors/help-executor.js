@@ -1,6 +1,7 @@
 'use strict';
 
 const chalk = require(`chalk`);
+const {Config} = require(`../../assets/config`);
 
 const getAppDescription = () => {
   return `Программа запускает http-сервер и формирует файл с данными для API.\n`;
@@ -59,6 +60,7 @@ const helpExecutor = (commandPrefix, registeredCommands) => {
 
   const helpText = helpContent.join(`\n`);
   console.info(chalk.gray(helpText));
+  process.exit(Config.Codes.SUCCESS);
 };
 
 module.exports = {helpExecutor};

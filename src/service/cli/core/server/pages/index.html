@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>
+    <htmlTitle />
+  </title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="wrapper">
+    <ul id="titles-list">
+      <titlesList />
+    </ul>
+  </div>
+  <script>
+    document.addEventListener(`DOMContentLoaded`, () => {
+      const listElements = [...document.querySelectorAll(`#titles-list li`)];
+      const baseDelay = 50;
+
+      listElements.forEach((element, index) => {
+        setTimeout(() => {
+          element.classList.add(`shown`);
+        }, baseDelay * index);
+      });
+    });
+  </script>
+</body>
+</html>
