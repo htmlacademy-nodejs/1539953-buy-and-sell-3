@@ -45,9 +45,9 @@ const getCategories = (categories) => {
 
 // Returns generated offers data
 const generateExecutor = async (count) => {
-  const titles = await readFile(Config.Paths.TITLES);
-  const descriptionSentences = await readFile(Config.Paths.SENTENCES);
-  const categories = await readFile(Config.Paths.CATEGORIES);
+  const titles = await readFile({filePath: Config.Paths.TITLES});
+  const descriptionSentences = await readFile({filePath: Config.Paths.SENTENCES});
+  const categories = await readFile({filePath: Config.Paths.CATEGORIES});
 
   // Creates specified count of empty objects and fills it with data
   const data = Array(count).fill({}).map(() => {
@@ -63,7 +63,7 @@ const generateExecutor = async (count) => {
 
   // Create JsonResult and write it to result file
   const jsonData = JSON.stringify(data);
-  await writeFile(Config.FILE_NAME, jsonData);
+  await writeFile(Config.FILE_NAME, jsonData, true);
 
   process.exit(Config.Codes.SUCCESS);
 };
