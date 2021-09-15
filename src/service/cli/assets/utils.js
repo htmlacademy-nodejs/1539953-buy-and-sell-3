@@ -47,8 +47,12 @@ const parseRuntimeParameters = () => {
 
 // Returns array of file contents strings
 const readFile = async (options) => {
-  const fileReader = new FileReader(options);
-  return await fileReader.read();
+  try {
+    const fileReader = new FileReader(options);
+    return await fileReader.read();
+  } catch (error) {
+    return [];
+  }
 };
 
 // Writes content to file

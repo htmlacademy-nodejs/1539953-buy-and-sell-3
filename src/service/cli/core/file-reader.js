@@ -25,7 +25,7 @@ class FileReader {
       return this._getLinesCompressed(linesArrayNoEmpty);
     } catch (error) {
       console.error(chalk.red(error));
-      return [];
+      throw new Error(error);
     }
   }
 
