@@ -2,10 +2,7 @@
 
 const http = require(`http`);
 const chalk = require(`chalk`);
-const {connectionCallbacks} = require(`../../core/server/connection-callbacks`);
-
-// Get default callback for errors cases
-const defaultCallback = connectionCallbacks.get(`*`);
+const {CallbackDirector} = require(`../../core/server/classes/CallbackDirector`);
 
 // Returns html file with specified status code
 const sendResponse = ({res, statusCode, headers, body}) => {
@@ -15,24 +12,10 @@ const sendResponse = ({res, statusCode, headers, body}) => {
 
 // Callback on client connection
 const onClientConnect = async (req, res) => {
-  try {
-    const requestUrl = req.url;
+  const requestUrl = req.url;
+  const responseObject = await CallbackDirector.invoke(requestUrl, req, res);
 
-    // If requested url is being supported by app
-    if (connectionCallbacks.has(requestUrl)) {
-      const targetCallback = connectionCallbacks.get(requestUrl);
-      const responseObject = await targetCallback(req, res);
-
-      return sendResponse(responseObject);
-    }
-
-    const defaultResponseObject = await defaultCallback(req, res);
-    return sendResponse(defaultResponseObject);
-  } catch (error) {
-    const defaultResponseObject = await defaultCallback(req, res);
-
-    return sendResponse(defaultResponseObject);
-  }
+  return sendResponse(responseObject);
 };
 
 // Returns instance of http server running on specified port
