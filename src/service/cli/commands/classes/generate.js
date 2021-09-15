@@ -18,19 +18,20 @@ class GenerateCommand extends Command {
   execute(app, args) {
     const defaultCountValue = Config.OffersCount.DEFAULT;
 
-    // Get target mocks data count from specified command parameter. Single record by default
-    const specifiedOffersCount = (args.length > 0) ? parseInt(args[0], 10) : defaultCountValue;
-    // Validate on Not A Number after parseInt from string
-    const offersCount = isNaN(specifiedOffersCount) ? defaultCountValue : Math.abs(specifiedOffersCount);
+    if (args.length > 0) {
+      const specifiedOffersCount = args[0];
+      const validOffersCount = this.validateUserNumberParameter(specifiedOffersCount, defaultCountValue);
 
-    // If user specified more than 1000 offers break execution with error code
-    if (offersCount > 1000) {
-      console.error(chalk.red(`Не больше 1000 объявлений`));
-      process.exit(Config.Codes.ERROR);
+      // If user specified more than 1000 offers break execution with error code
+      if (validOffersCount > 1000) {
+        console.error(chalk.red(`Не больше 1000 объявлений`));
+        process.exit(Config.Codes.ERROR);
+      }
+
+      return this._executor(validOffersCount);
     }
 
-    // Run command executor. It is dependency injection for hot swap to test generator, for example
-    this._executor(offersCount);
+    return this._executor(defaultCountValue);
   }
 }
 

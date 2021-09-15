@@ -34,7 +34,9 @@ const Config = {
     CATEGORIES: `/cli/data/categories.txt`
   },
   // Output file name
-  FILE_NAME: `mocks.json`
+  FILE_NAME: `mocks.json`,
+  // Default port for command --server
+  DEFAULT_PORT: 3000
 };
 
 module.exports = {Config};
